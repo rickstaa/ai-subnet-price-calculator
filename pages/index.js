@@ -7,12 +7,14 @@ export default function Home() {
     const [payment, setPayment] = useState(0);
     const [paymentInEth, setPaymentInEth] = useState(0);
     const [paymentInUsd, setPaymentInUsd] = useState(0);
+    const [paymentPerSecond, setPaymentPerSecond] = useState(0);
     const [height, setHeight] = useState(1024);
     const [width, setWidth] = useState(1024);
     const [frames, setFrames] = useState(25);
     const [price, setPrice] = useState(3390842);
     const [modelType, setModelType] = useState('text-to-image');
     const [etherToUsdRate, setEtherToUsdRate] = useState(3632);
+    const [framesPerSecond, setFramesPerSecond] = useState(6);
 
     const web3 = new Web3();
 
@@ -29,6 +31,9 @@ export default function Home() {
 
         const paymentInUsd = paymentInEther * etherToUsdRate;
         setPaymentInUsd(paymentInUsd);
+
+        const paymentPerSecond = paymentInUsd / frames * framesPerSecond;
+        setPaymentPerSecond(paymentPerSecond);
     };
 
     useEffect(() => {
@@ -38,11 +43,12 @@ export default function Home() {
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
             <h1 style={{ fontSize: '50px', marginBottom: "10px" }}>AI subnet Job Price Calculator</h1>
-            <ModelForm onCalculate={calculatePayment} height={height} setHeight={setHeight} width={width} setWidth={setWidth} frames={frames} setFrames={setFrames} price={price} setPrice={setPrice} modelType={modelType} setModelType={setModelType} etherToUsdRate={etherToUsdRate} setEtherToUsdRate={setEtherToUsdRate} />
+            <ModelForm onCalculate={calculatePayment} height={height} setHeight={setHeight} width={width} setWidth={setWidth} frames={frames} setFrames={setFrames} price={price} setPrice={setPrice} modelType={modelType} setModelType={setModelType} etherToUsdRate={etherToUsdRate} setEtherToUsdRate={setEtherToUsdRate} framesPerSecond={framesPerSecond} setFramesPerSecond={setFramesPerSecond} />
             <hr style={{ width: '80%', marginTop: '20px', marginBottom: '20px' }} />
             <p style={{ paddingTop: '20px', fontSize: '30px' }}>Payment: {payment} Wei</p>
             <p style={{ paddingTop: '20px', fontSize: '30px' }}>Payment: {paymentInEth} Ether</p>
             <p style={{ paddingTop: '20px', fontSize: '30px' }}>Payment: {paymentInUsd} USD</p>
+            {modelType === 'image-to-video' && <p style={{ paddingTop: '20px', fontSize: '30px' }}>Payment per second video: {paymentPerSecond}</p>}
         </div>
     );
 }

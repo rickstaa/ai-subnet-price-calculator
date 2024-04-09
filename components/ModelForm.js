@@ -1,5 +1,5 @@
 // components/ModelForm.js
-export default function ModelForm({ onCalculate, height, setHeight, width, setWidth, frames, setFrames, price, setPrice, modelType, setModelType, etherToUsdRate, setEtherToUsdRate }) {
+export default function ModelForm({ onCalculate, height, setHeight, width, setWidth, frames, setFrames, price, setPrice, modelType, setModelType, etherToUsdRate, setEtherToUsdRate, framesPerSecond, setFramesPerSecond }) {
 
   const handleInputChange = (event) => {
     switch (event.target.name) {
@@ -21,6 +21,8 @@ export default function ModelForm({ onCalculate, height, setHeight, width, setWi
       case 'etherToUsdRate':
         setEtherToUsdRate(event.target.value);
         break;
+      case 'framesPerSecond':
+
       default:
         break;
     }
@@ -45,10 +47,16 @@ export default function ModelForm({ onCalculate, height, setHeight, width, setWi
         <input name="width" type="number" value={width.toString()} onChange={handleInputChange} style={{ marginLeft: '10px', fontSize: '22px' }} />
       </label>
       {modelType === 'image-to-video' && (
-        <label>
-          Frames:
-          <input name="frames" type="number" value={frames.toString()} onChange={handleInputChange} style={{ marginLeft: '10px', fontSize: '22px' }} />
-        </label>
+        <>
+          <label>
+            Frames:
+            <input name="frames" type="number" value={frames.toString()} onChange={handleInputChange} style={{ marginLeft: '10px', fontSize: '22px' }} />
+          </label>
+          <label>
+            Frames per Second:
+            <input name="framesPerSecond" type="number" value={framesPerSecond.toString()} onChange={handleInputChange} style={{ marginLeft: '10px', fontSize: '22px' }} />
+          </label>
+        </>
       )}
       <label>
         Ethereum Price in USD:
