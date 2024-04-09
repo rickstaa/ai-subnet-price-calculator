@@ -22,7 +22,7 @@ export default function ModelForm({ onCalculate, height, setHeight, width, setWi
         setEtherToUsdRate(event.target.value);
         break;
       case 'framesPerSecond':
-
+        setFramesPerSecond(event.target.value);
       default:
         break;
     }

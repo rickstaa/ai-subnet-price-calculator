@@ -3,6 +3,9 @@ import { useState, useEffect } from 'react';
 import ModelForm from '../components/ModelForm';
 import Web3 from 'web3';
 
+
+const web3 = new Web3();
+
 export default function Home() {
     const [payment, setPayment] = useState(0);
     const [paymentInEth, setPaymentInEth] = useState(0);
@@ -13,10 +16,10 @@ export default function Home() {
     const [frames, setFrames] = useState(25);
     const [price, setPrice] = useState(3390842);
     const [modelType, setModelType] = useState('text-to-image');
-    const [etherToUsdRate, setEtherToUsdRate] = useState(3632);
-    const [framesPerSecond, setFramesPerSecond] = useState(6);
+    const [etherToUsdRate, setEtherToUsdRate] = useState(3496);
+    const [framesPerSecond, setFramesPerSecond] = useState(7);
 
-    const web3 = new Web3();
+    
 
     const calculatePayment = () => {
         let outputPixels = height * width;
@@ -37,8 +40,17 @@ export default function Home() {
     };
 
     useEffect(() => {
+        // Fetch the current price of Ether in USD while not having CORS issues
+        fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd')
+            .then(response => response.json())
+            .then(data => {
+                setEtherToUsdRate(data.ethereum.usd);
+            });
+    }, []);
+
+    useEffect(() => {
         calculatePayment();
-    }, [height, width, frames, price, modelType, etherToUsdRate]);
+    }, [height, width, frames, price, modelType, etherToUsdRate, framesPerSecond]);
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
@@ -47,8 +59,8 @@ export default function Home() {
             <hr style={{ width: '80%', marginTop: '20px', marginBottom: '20px' }} />
             <p style={{ paddingTop: '20px', fontSize: '30px' }}>Payment: {payment} Wei</p>
             <p style={{ paddingTop: '20px', fontSize: '30px' }}>Payment: {paymentInEth} Ether</p>
-            <p style={{ paddingTop: '20px', fontSize: '30px' }}>Payment: {paymentInUsd} USD</p>
-            {modelType === 'image-to-video' && <p style={{ paddingTop: '20px', fontSize: '30px' }}>Payment per second video: {paymentPerSecond}</p>}
+            <p style={{ paddingTop: '20px', fontSize: '30px' }}>Payment: ${Number(paymentInUsd).toPrecision(4)}</p>
+            {modelType === 'image-to-video' && <p style={{ paddingTop: '20px', fontSize: '30px' }}>Payment per second video: ${Number(paymentPerSecond).toPrecision(4)}</p>}
         </div>
     );
 }
