@@ -64,7 +64,8 @@ export default function Home() {
             <p style={{ paddingTop: '20px', fontSize: '30px' }}>Payment: {payment} Wei</p>
             <p style={{ paddingTop: '20px', fontSize: '30px' }}>Payment: {paymentInEth} Ether</p>
             <p style={{ paddingTop: '20px', fontSize: '30px' }}>Payment: ${Number(paymentInUsd).toPrecision(4)}</p>
-            {modelType === 'image-to-video' && <p style={{ paddingTop: '20px', fontSize: '30px' }}>Payment per second video: ${Number(paymentPerSecond).toPrecision(4)}</p>}
+            {modelType === 'text-to-image' && <p style={{ paddingTop: '20px', fontSize: '30px' }}>Images per dollar: {Math.round(1 / paymentInUsd)}</p>}
+            {modelType === 'image-to-video' && <p style={{ paddingTop: '20px', fontSize: '30px' }}>Payment per second video: ${Number(paymentPerSecond).toPrecision(4)}</p>}            
         </div>
     );
 }
