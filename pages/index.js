@@ -19,7 +19,7 @@ export default function Home() {
     const [etherToUsdRate, setEtherToUsdRate] = useState(3496);
     const [framesPerSecond, setFramesPerSecond] = useState(7);
 
-    
+
 
     const calculatePayment = () => {
         let outputPixels = height * width;
@@ -51,6 +51,10 @@ export default function Home() {
     useEffect(() => {
         calculatePayment();
     }, [height, width, frames, price, modelType, etherToUsdRate, framesPerSecond]);
+
+    useEffect(() => {
+        setPrice(modelType === 'image-to-video' ? 3390842 : 4768371);
+    }, [modelType]);
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
