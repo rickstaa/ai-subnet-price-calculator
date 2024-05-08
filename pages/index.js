@@ -11,6 +11,8 @@ export default function Home() {
     const [paymentInEth, setPaymentInEth] = useState(0);
     const [paymentInUsd, setPaymentInUsd] = useState(0);
     const [paymentPerSecond, setPaymentPerSecond] = useState(0);
+    const [paymentPerMinute, setPaymentPerMinute] = useState(0);
+    const [paymentPerHour, setPaymentPerHour] = useState(0);
     const [height, setHeight] = useState(1024);
     const [width, setWidth] = useState(1024);
     const [frames, setFrames] = useState(25);
@@ -37,6 +39,12 @@ export default function Home() {
 
         const paymentPerSecond = paymentInUsd / frames * framesPerSecond;
         setPaymentPerSecond(paymentPerSecond);
+
+        const paymentPerMinute = paymentPerSecond * 60;
+        setPaymentPerMinute(paymentPerMinute);
+
+        const paymentPerHour = paymentPerMinute * 60;
+        setPaymentPerHour(paymentPerHour);
     };
 
     useEffect(() => {
@@ -65,7 +73,9 @@ export default function Home() {
             <p style={{ paddingTop: '20px', fontSize: '30px' }}>Payment: {paymentInEth} Ether</p>
             <p style={{ paddingTop: '20px', fontSize: '30px' }}>Payment: ${Number(paymentInUsd).toPrecision(4)}</p>
             {modelType === 'text-to-image' && <p style={{ paddingTop: '20px', fontSize: '30px' }}>Images per dollar: {Math.round(1 / paymentInUsd)}</p>}
-            {modelType === 'image-to-video' && <p style={{ paddingTop: '20px', fontSize: '30px' }}>Payment per second video: ${Number(paymentPerSecond).toPrecision(4)}</p>}            
+            {modelType === 'image-to-video' && <p style={{ paddingTop: '20px', fontSize: '30px' }}>Payment per second video: ${Number(paymentPerSecond).toPrecision(4)}</p>}
+            {modelType === 'image-to-video' && <p style={{ paddingTop: '20px', fontSize: '30px' }}>Payment per minute video: ${Number(paymentPerMinute).toPrecision(4)}</p>}
+            {modelType === 'image-to-video' && <p style={{ paddingTop: '20px', fontSize: '30px' }}>Payment per hour video: ${Number(paymentPerHour).toPrecision(4)}</p>}
         </div>
     );
 }
